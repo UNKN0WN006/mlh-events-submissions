@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup Complete</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f6fa; overflow-x: hidden; }
+        .box { max-width: 400px; margin: 60px auto; padding: 30px; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px #dcdde1; position: relative; z-index: 2; }
+        h2 { text-align: center; color: #0097e6; }
+        .hash { word-break: break-all; background: #f1f2f6; padding: 10px; border-radius: 5px; font-size: 14px; margin-top: 10px; }
+        .info { text-align: center; margin-top: 15px; color: #353b48; font-size: 15px; }
+        a { color: #0097e6; text-decoration: none; }
+        .confetti { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 1; }
+    </style>
+</head>
+<body>
+    <canvas class="confetti" id="confetti"></canvas>
+    <div class="box">
+        <h2>Signup Successful!</h2>
+        <div class="info">
+            <p>Welcome, <b>{{ name }}</b>!</p>
+            <p>Your password has been hashed securely:</p>
+        </div>
+        <div class="hash">{{ hash }}</div>
+        <div class="info">
+            <p>This is what gets stored in the database. Your real password is never saved.</p>
+            <p><a href="/login">Go to Login</a></p>
+        </div>
+    </div>
+    <script>
+    // Confetti/firecracker animation, responsive and initialized after DOM is loaded
+    function startConfetti() {
+        const canvas = document.getElementById('confetti');
+        const ctx = canvas.getContext('2d');
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function randomColor() {
+            const colors = ['#e84118', '#0097e6', '#44bd32', '#fbc531', '#8c7ae6', '#00b894', '#fd79a8'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function ConfettiPiece() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * -canvas.height/2;
+            this.r = Math.random() * 7 + 4;
+            this.color = randomColor();
+            this.speed = Math.random() * 3 + 2;
+            this.angle = Math.random() * Math.PI * 2;
+            this.spin = Math.random() * 0.1 - 0.05;
+        }
+
+        let pieces = [];
+        for (let i = 0; i < 80; i++) {
+            pieces.push(new ConfettiPiece());
+        }
+
+        function drawFirecracker(x, y) {
+            for (let i = 0; i < 12; i++) {
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(i * Math.PI / 6);
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(0, -18);
+                ctx.strokeStyle = randomColor();
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let p of pieces) {
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+                ctx.restore();
+                p.y += p.speed;
+                p.x += Math.sin(p.angle) * 2;
+                p.angle += p.spin;
+                if (p.y > canvas.height) {
+                    p.x = Math.random() * canvas.width;
+                    p.y = Math.random() * -canvas.height/2;
+                    p.color = randomColor();
+                }
+            }
+            // Firecrackers at top
+            for (let i = 0; i < 5; i++) {
+                drawFirecracker(canvas.width/6 * (i+1), 60);
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+    }
+    window.addEventListener('DOMContentLoaded', startConfetti);
+    </script>
+</body>
+</html>
