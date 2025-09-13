@@ -52,8 +52,15 @@ def signup():
         conn.close()
         if exists:
             return render_template('signup.html', error='Username already exists!')
-        save_user(name, pwd)
-        return render_template('done.html', name=name, hash=bcrypt.hashpw(pwd.encode(), bcrypt.gensalt()).decode())
+    # Save user and fetch stored hash
+    save_user(name, pwd)
+    conn = sqlite3.connect('data.db')
+    c = conn.cursor()
+    c.execute('SELECT pwd FROM users WHERE name=?', (name,))
+    row = c.fetchone()
+    conn.close()
+    stored_hash = row[0].decode() if row else ''
+    return render_template('done.html', name=name, hash=stored_hash)
     return render_template('signup.html')
 
 @app.route('/login', methods=['GET', 'POST'])
