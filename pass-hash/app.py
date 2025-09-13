@@ -89,4 +89,6 @@ def welcome():
     return render_template('welcome.html', name=name, user_hash=user_hash)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
