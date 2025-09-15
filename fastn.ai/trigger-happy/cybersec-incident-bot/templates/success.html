@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Incident Reported</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h2>Incident Submitted!</h2>
+    <p>Type: {{ incident.type }}</p>
+    <p>Description: {{ incident.desc }}</p>
+    <p>Severity: {{ incident.level }}</p>
+    <p>Slack Result: {{ result }}</p>
+    <a href="/">Report another</a>
+</body>
+</html>

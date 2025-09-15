@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Report Incident</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h2>Report Cybersecurity Incident</h2>
+    <form method="post" action="/report">
+        <label for="type">Type:</label>
+        <input type="text" id="type" name="type" required><br><br>
+        <label for="desc">Description:</label>
+        <textarea id="desc" name="desc" required></textarea><br><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
