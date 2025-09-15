@@ -1,0 +1,7 @@
+body { font-family: Arial, sans-serif; background: #f7f7f7; margin: 40px; }
+h2 { color: #333; }
+form { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px #ccc; }
+label { display: block; margin-top: 10px; }
+input, textarea { width: 100%; padding: 8px; margin-top: 4px; border-radius: 4px; border: 1px solid #ccc; }
+button { margin-top: 12px; padding: 10px 20px; background: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+button:hover { background: #0056b3; }
